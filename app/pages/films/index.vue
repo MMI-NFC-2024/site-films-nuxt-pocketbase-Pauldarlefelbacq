@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <h1>index films</h1>
+    <h1 class="text-3xl">index films</h1>
 </template>
