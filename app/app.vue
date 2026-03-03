@@ -4,7 +4,7 @@
     <NuxtLayout
     >
       <NuxtPage />
-      Hey
+      App ici
     </NuxtLayout>
   </div>
 </template>

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "type": "npx pocketbase-typegen --db ./pocketbase/pb_data/data.db --out ./app/utils/pocketbase-types.ts",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

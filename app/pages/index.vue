@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <h1>Slt c l'index</h1>
+    <h1>Slt c l'index nuxt</h1>
 </template>
