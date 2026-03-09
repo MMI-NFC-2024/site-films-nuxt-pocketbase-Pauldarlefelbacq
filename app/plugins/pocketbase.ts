@@ -4,11 +4,11 @@ export default defineNuxtPlugin(async () => {
   const pb = new PocketBase('http://127.0.0.1:8090') as TypedPocketBase;
 
   const cookie = useCookie('pb_auth', {
-    path:     '/',
-    secure:   true,
+    path: '/',
+    secure: true,
     sameSite: 'strict',
     httpOnly: false, // change to "true" if you want only server-side access
-    maxAge:   604800,
+    maxAge: 604800,
   })
 
   // load the store data from the cookie value
@@ -17,7 +17,7 @@ export default defineNuxtPlugin(async () => {
 
   // send back the default 'pb_auth' cookie to the client with the latest store state
   pb.authStore.onChange(() => {
-  // @ts-ignore
+    // @ts-ignore
     cookie.value = {
       token: pb.authStore.token,
       record: pb.authStore.record,
@@ -25,14 +25,20 @@ export default defineNuxtPlugin(async () => {
   });
 
   try {
-      // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-      pb.authStore.isValid && await pb.collection('users').authRefresh();
+    // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
+    pb.authStore.isValid && await pb.collection('users').authRefresh();
   } catch (_) {
-      // clear the auth store on failed refresh
-      pb.authStore.clear();
+    // clear the auth store on failed refresh
+    pb.authStore.clear();
   }
 
+  // valeur réactive reflettant l'utilisateur
+  const user = ref<UsersResponse | null>(null);
+  pb.authStore.onChange((token, record) => {
+    user.value = record as UsersResponse;
+  });
+
   return {
-    provide: { pb }
+    provide: { pb, user }
   }
 });
