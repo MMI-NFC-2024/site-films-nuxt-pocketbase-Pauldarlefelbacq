@@ -5,6 +5,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['./app/assets/css/main.css'],
   modules: ['nuxt-typed-router'],
+  runtimeConfig:  {
+    public: {
+      pocketbaseUrl: "127.0.0.1:8090", //NUXT_PUBLIC_POCKETBASE_URL
+    }
+  },
   vite: {
     plugins: [
     // @ts-ignore

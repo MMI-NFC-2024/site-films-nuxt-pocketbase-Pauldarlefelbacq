@@ -1,8 +1,19 @@
 <script setup lang="ts">
-const film = ref({} as FilmResponse)
+import ImgPb from '~/components/ImgPb.vue';
+
 const nuxtApp = useNuxtApp();
 const route = useRoute();
+
+const film = ref({ } as FilmResponse)
 const id = route.params.id;
+const URL = globalThis.URL;
+
+onMounted(async () => {
+    if (id) {
+        film.value = await nuxtApp.$pb.collection("film").getOne(id as string);
+        film.value.date_sortie = (new Date(film.value.date_sortie)).toISOString().split("T")[0] as string;
+    }
+});
 
 async function submitFilm() {
     if (id)
@@ -34,6 +45,14 @@ async function submitFilm() {
 <template>
 
     <form class="flex flex-col" @submit.prevent="submitFilm">
+        <div v-if="film.image">
+            <ImgPb v-if="typeof film.image === 'string'" :record="film" :filename="film.image" />
+            <img v-else :src="URL.createObjectURL(film.image)" alt="" />
+            <button @click.prevent="film.image=null">Supprimer l'image</button>
+        </div>
+        <label v-else>
+            <input type="file" @change="film.image = ($event.target as HTMLInputElement)?.files?.[0]" />
+        </label>
         <label>
             Titre
             <input type="text" v-model="film.titre">
