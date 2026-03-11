@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ImgPb from '~/components/ImgPb.vue';
+import MultiSelectPersonnes from '~/components/MultiSelectPersonnes.vue';
 
 const nuxtApp = useNuxtApp();
 const route = useRoute();
@@ -82,6 +83,8 @@ async function submitpersonne() {
                 <option v-for="profession in PersonneProfessionOptions" :value="profession">{{ profession }}</option>
             </select>
         </label>
+
+        <MultiSelectPersonnes :personne="[personne]" name="profession" :value="personne.profession" multiple client:load />
 
 
         <button>Envoyer</button>
